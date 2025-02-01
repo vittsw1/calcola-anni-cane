@@ -4,18 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calcola Età Canina</title>
-  <!-- Importazione di un font da Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
   <style>
-    /* Reset e stili di base */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Roboto', sans-serif;
-      background: url('https://source.unsplash.com/1600x900/?dogs,puppies,canine') no-repeat center center fixed;
+      background: url('sfondocani.jpeg') no-repeat center center fixed;
       background-size: cover;
       display: flex;
       align-items: center;
@@ -31,43 +25,15 @@
       max-width: 500px;
       width: 100%;
     }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      font-size: 1rem;
-      margin-bottom: 5px;
-      color: #555;
-      display: block;
-    }
+    h1 { text-align: center; margin-bottom: 20px; color: #333; }
+    .form-group { margin-bottom: 15px; }
+    label { font-size: 1rem; margin-bottom: 5px; color: #555; display: block; }
     input, select {
       width: 100%;
       padding: 10px;
       font-size: 1rem;
       border: 1px solid #ccc;
       border-radius: 4px;
-      outline: none;
-    }
-    input:focus, select:focus {
-      border-color: #66afe9;
-      box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
-    }
-    .error {
-      color: red;
-      margin-bottom: 10px;
-      text-align: center;
-      font-weight: bold;
-    }
-    .result {
-      font-size: 1.5rem;
-      margin: 20px 0;
-      text-align: center;
-      color: #333;
     }
     button {
       background: #ff6f61;
@@ -81,29 +47,14 @@
       margin: 0 auto;
       transition: background 0.3s ease;
     }
-    button:hover {
-      background: #ff4f41;
-    }
-    @media (max-width: 480px) {
-      .container {
-        padding: 20px;
-      }
-      h1 {
-        font-size: 1.5rem;
-      }
-      input, select, button {
-        font-size: 0.9rem;
-        padding: 8px;
-      }
-    }
+    button:hover { background: #ff4f41; }
+    .result { font-size: 1.5rem; margin: 20px 0; text-align: center; color: #333; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Calcola l'età umana del tuo cane</h1>
-    
     <div id="error" class="error"></div>
-    
     <form id="dogForm">
       <div class="form-group">
         <label>Nome del cane:</label>
@@ -111,9 +62,7 @@
       </div>
       <div class="form-group">
         <label>Razza:</label>
-        <select id="breed" required>
-          <!-- Le opzioni verranno aggiunte tramite JavaScript -->
-        </select>
+        <select id="breed" required></select>
       </div>
       <div class="form-group">
         <label>Peso (kg):</label>
@@ -125,87 +74,74 @@
       </div>
       <button type="submit">Calcola</button>
     </form>
-    
     <div id="result" class="result"></div>
   </div>
   
   <script>
-    // Dati sulle razze (25 razze)
     const dogBreeds = {
-      'labrador': { lifespan: 12, size: 'large' },
-      'golden_retriever': { lifespan: 11, size: 'large' },
-      'german_shepherd': { lifespan: 10, size: 'large' },
-      'poodle_standard': { lifespan: 14, size: 'medium' },
-      'poodle_miniature': { lifespan: 15, size: 'small' },
-      'beagle': { lifespan: 13, size: 'medium' },
-      'dachshund': { lifespan: 15, size: 'small' },
-      'chihuahua': { lifespan: 17, size: 'small' },
-      'bulldog': { lifespan: 8, size: 'medium' },
-      'siberian_husky': { lifespan: 13, size: 'large' },
-      'rottweiler': { lifespan: 9, size: 'large' },
-      'yorkshire_terrier': { lifespan: 14, size: 'small' },
-      'boxer': { lifespan: 10, size: 'large' },
-      'doberman': { lifespan: 11, size: 'large' },
-      'great_dane': { lifespan: 7, size: 'giant' },
-      'shih_tzu': { lifespan: 13, size: 'small' },
-      'corgi': { lifespan: 13, size: 'small' },
-      'pomeranian': { lifespan: 14, size: 'small' },
-      'maltese': { lifespan: 13, size: 'small' },
-      'saint_bernard': { lifespan: 8, size: 'giant' },
-      'boston_terrier': { lifespan: 12, size: 'small' },
-      'border_collie': { lifespan: 13, size: 'medium' },
-      'australian_shepherd': { lifespan: 13, size: 'medium' },
-      'cavalier_king_charles': { lifespan: 11, size: 'small' },
-      'jack_russell': { lifespan: 14, size: 'small' }
+      'Labrador Retriever': { lifespan: 12, size: 'large' },
+      'Golden Retriever': { lifespan: 11, size: 'large' },
+      'Pastore Tedesco': { lifespan: 10, size: 'large' },
+      'Barboncino Standard': { lifespan: 14, size: 'medium' },
+      'Beagle': { lifespan: 13, size: 'medium' },
+      'Bassotto': { lifespan: 15, size: 'small' },
+      'Chihuahua': { lifespan: 17, size: 'small' },
+      'Bulldog Inglese': { lifespan: 8, size: 'medium' },
+      'Siberian Husky': { lifespan: 13, size: 'large' },
+      'Rottweiler': { lifespan: 9, size: 'large' },
+      'Yorkshire Terrier': { lifespan: 14, size: 'small' },
+      'Boxer': { lifespan: 10, size: 'large' },
+      'Dobermann': { lifespan: 11, size: 'large' },
+      'Alano': { lifespan: 7, size: 'giant' },
+      'Shih Tzu': { lifespan: 13, size: 'small' },
+      'Corgi': { lifespan: 13, size: 'small' },
+      'Pomerania': { lifespan: 14, size: 'small' },
+      'Maltese': { lifespan: 13, size: 'small' },
+      'San Bernardo': { lifespan: 8, size: 'giant' },
+      'Border Collie': { lifespan: 13, size: 'medium' },
+      'Cavalier King Charles': { lifespan: 11, size: 'small' },
+      'Jack Russell': { lifespan: 14, size: 'small' },
+      'Dalmata': { lifespan: 13, size: 'medium' },
+      'Akita Inu': { lifespan: 12, size: 'large' },
+      'Shiba Inu': { lifespan: 14, size: 'small' }
     };
-
-    // Popola il menu a tendina delle razze
+    
     const breedSelect = document.getElementById('breed');
     Object.keys(dogBreeds).forEach(breed => {
       const option = document.createElement('option');
       option.value = breed;
-      option.textContent = breed.replace(/_/g, ' ').toUpperCase();
+      option.textContent = breed;
       breedSelect.appendChild(option);
     });
-
-    // Gestione del submit del form
+    
     document.getElementById('dogForm').addEventListener('submit', function(event) {
-      event.preventDefault();  // Previene il comportamento di submit predefinito
-
-      // Reset dei messaggi di errore e risultato
+      event.preventDefault();
       document.getElementById('error').textContent = '';
       document.getElementById('result').textContent = '';
-
-      // Lettura dei valori inseriti
+      
       const dogName = document.getElementById('dogName').value.trim();
       const breed = document.getElementById('breed').value;
       const weight = document.getElementById('weight').value;
       const age = document.getElementById('age').value;
-
-      // Validazione dei campi
+      
       if (!dogName || !breed || !weight || !age) {
         document.getElementById('error').textContent = 'Compila tutti i campi!';
         return;
       }
-
+      
       const parsedAge = parseFloat(age);
-      const parsedWeight = parseFloat(weight);
-
-      if (isNaN(parsedAge) || isNaN(parsedWeight)) {
-        document.getElementById('error').textContent = 'Inserisci valori numerici validi per peso ed età';
+      if (isNaN(parsedAge)) {
+        document.getElementById('error').textContent = 'Inserisci un valore numerico valido per l'età';
         return;
       }
-
+      
       const breedData = dogBreeds[breed];
       if (!breedData) {
         document.getElementById('error').textContent = 'Razza non riconosciuta';
         return;
       }
-
-      // Calcolo età umana: (età attuale / durata vita media della razza) * 80
+      
       const humanAge = (parsedAge / breedData.lifespan) * 80;
-
-      // Mostra il risultato
       document.getElementById('result').innerHTML = `<strong>${dogName}</strong> ha <strong>${humanAge.toFixed(1)}</strong> anni umani!`;
     });
   </script>
