@@ -1,17 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Meta tag per il responsive design -->
   <title>Calcola Età Canina</title>
   <style>
-    /* CSS incorporato */
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 5px; }
-    input, select { width: 100%; padding: 8px; }
-    .error { color: red; margin-bottom: 10px; }
-    .result { font-size: 24px; margin: 30px 0; text-align: center; }
-    button { padding: 10px 20px; font-size: 16px; }
+    /* Stili di base e responsive */
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    h1 {
+      font-size: 1.8rem;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 1rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .error {
+      color: red;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .result {
+      font-size: 1.5rem;
+      margin: 30px 0;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      display: block;
+      margin: 0 auto;
+      cursor: pointer;
+    }
+    
+    /* Media query per schermi piccoli */
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+        margin: 10px auto;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      input, select, button {
+        font-size: 0.9rem;
+        padding: 8px;
+      }
+    }
   </style>
 </head>
 <body>
