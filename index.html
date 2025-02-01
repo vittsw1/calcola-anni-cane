@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Calcola Età Canina</title>
+  <style>
+    /* CSS incorporato */
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; }
+    input, select { width: 100%; padding: 8px; }
+    .error { color: red; margin-bottom: 10px; }
+    .result { font-size: 24px; margin: 30px 0; text-align: center; }
+    button { padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Calcola l'età umana del tuo cane</h1>
+  
+  <div id="error" class="error"></div>
+  
+  <form id="dogForm">
+    <div class="form-group">
+      <label>Nome del cane:</label>
+      <input type="text" id="dogName" required>
+    </div>
+
+    <div class="form-group">
+      <label>Razza:</label>
+      <select id="breed" required>
+        <!-- Le opzioni verranno aggiunte tramite JavaScript -->
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Peso (kg):</label>
+      <input type="number" step="0.1" id="weight" required>
+    </div>
+
+    <div class="form-group">
+      <label>Età attuale (anni):</label>
+      <input type="number" step="0.5" id="age" required>
+    </div>
+
+    <button type="submit">Calcola</button>
+  </form>
+  
+  <div id="result" class="result"></div>
+
+  <script>
+    // Dati sulle razze (25 razze)
+    const dogBreeds = {
+      'labrador': { lifespan: 12, size: 'large' },
+      'golden_retriever': { lifespan: 11, size: 'large' },
+      'german_shepherd': { lifespan: 10, size: 'large' },
+      'poodle_standard': { lifespan: 14, size: 'medium' },
+      'poodle_miniature': { lifespan: 15, size: 'small' },
+      'beagle': { lifespan: 13, size: 'medium' },
+      'dachshund': { lifespan: 15, size: 'small' },
+      'chihuahua': { lifespan: 17, size: 'small' },
+      'bulldog': { lifespan: 8, size: 'medium' },
+      'siberian_husky': { lifespan: 13, size: 'large' },
+      'rottweiler': { lifespan: 9, size: 'large' },
+      'yorkshire_terrier': { lifespan: 14, size: 'small' },
+      'boxer': { lifespan: 10, size: 'large' },
+      'doberman': { lifespan: 11, size: 'large' },
+      'great_dane': { lifespan: 7, size: 'giant' },
+      'shih_tzu': { lifespan: 13, size: 'small' },
+      'corgi': { lifespan: 13, size: 'small' },
+      'pomeranian': { lifespan: 14, size: 'small' },
+      'maltese': { lifespan: 13, size: 'small' },
+      'saint_bernard': { lifespan: 8, size: 'giant' },
+      'boston_terrier': { lifespan: 12, size: 'small' },
+      'border_collie': { lifespan: 13, size: 'medium' },
+      'australian_shepherd': { lifespan: 13, size: 'medium' },
+      'cavalier_king_charles': { lifespan: 11, size: 'small' },
+      'jack_russell': { lifespan: 14, size: 'small' }
+    };
+
+    // Popola il menu a tendina delle razze
+    const breedSelect = document.getElementById('breed');
+    Object.keys(dogBreeds).forEach(breed => {
+      const option = document.createElement('option');
+      option.value = breed;
+      option.textContent = breed.replace(/_/g, ' ').toUpperCase();
+      breedSelect.appendChild(option);
+    });
+
+    // Gestione del submit del form
+    document.getElementById('dogForm').addEventListener('submit', function(event) {
+      event.preventDefault();  // Previene il comportamento di submit predefinito
+
+      // Reset dei messaggi di errore e risultato
+      document.getElementById('error').textContent = '';
+      document.getElementById('result').textContent = '';
+
+      // Lettura dei valori inseriti
+      const dogName = document.getElementById('dogName').value.trim();
+      const breed = document.getElementById('breed').value;
+      const weight = document.getElementById('weight').value;
+      const age = document.getElementById('age').value;
+
+      // Validazione dei campi
+      if (!dogName || !breed || !weight || !age) {
+        document.getElementById('error').textContent = 'Compila tutti i campi!';
+        return;
+      }
+
+      const parsedAge = parseFloat(age);
+      const parsedWeight = parseFloat(weight);
+
+      if (isNaN(parsedAge) || isNaN(parsedWeight)) {
+        document.getElementById('error').textContent = 'Inserisci valori numerici validi per peso ed età';
+        return;
+      }
+
+      const breedData = dogBreeds[breed];
+      if (!breedData) {
+        document.getElementById('error').textContent = 'Razza non riconosciuta';
+        return;
+      }
+
+      // Calcolo età umana: (età attuale / durata vita media della razza) * 80
+      const humanAge = (parsedAge / breedData.lifespan) * 80;
+
+      // Mostra il risultato
+      document.getElementById('result').innerHTML = `<strong>${dogName}</strong> ha <strong>${humanAge.toFixed(1)}</strong> anni umani!`;
+    });
+  </script>
+</body>
+</html>
