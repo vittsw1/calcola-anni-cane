@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calcola Età Canina</title>
+  <!-- Importazione di un font da Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
   <style>
+    /* Reset e stili di base */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Roboto', sans-serif;
@@ -49,6 +51,7 @@
     }
     button:hover { background: #ff4f41; }
     .result { font-size: 1.5rem; margin: 20px 0; text-align: center; color: #333; }
+    .error { color: red; margin-bottom: 10px; text-align: center; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -78,71 +81,79 @@
   </div>
   
   <script>
-    const dogBreeds = {
-      'Labrador Retriever': { lifespan: 12, size: 'large' },
-      'Golden Retriever': { lifespan: 11, size: 'large' },
-      'Pastore Tedesco': { lifespan: 10, size: 'large' },
-      'Barboncino Standard': { lifespan: 14, size: 'medium' },
-      'Beagle': { lifespan: 13, size: 'medium' },
-      'Bassotto': { lifespan: 15, size: 'small' },
-      'Chihuahua': { lifespan: 17, size: 'small' },
-      'Bulldog Inglese': { lifespan: 8, size: 'medium' },
-      'Siberian Husky': { lifespan: 13, size: 'large' },
-      'Rottweiler': { lifespan: 9, size: 'large' },
-      'Yorkshire Terrier': { lifespan: 14, size: 'small' },
-      'Boxer': { lifespan: 10, size: 'large' },
-      'Dobermann': { lifespan: 11, size: 'large' },
-      'Alano': { lifespan: 7, size: 'giant' },
-      'Shih Tzu': { lifespan: 13, size: 'small' },
-      'Corgi': { lifespan: 13, size: 'small' },
-      'Pomerania': { lifespan: 14, size: 'small' },
-      'Maltese': { lifespan: 13, size: 'small' },
-      'San Bernardo': { lifespan: 8, size: 'giant' },
-      'Border Collie': { lifespan: 13, size: 'medium' },
-      'Cavalier King Charles': { lifespan: 11, size: 'small' },
-      'Jack Russell': { lifespan: 14, size: 'small' },
-      'Dalmata': { lifespan: 13, size: 'medium' },
-      'Akita Inu': { lifespan: 12, size: 'large' },
-      'Shiba Inu': { lifespan: 14, size: 'small' }
-    };
-    
-    const breedSelect = document.getElementById('breed');
-    Object.keys(dogBreeds).forEach(breed => {
-      const option = document.createElement('option');
-      option.value = breed;
-      option.textContent = breed;
-      breedSelect.appendChild(option);
-    });
-    
-    document.getElementById('dogForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      document.getElementById('error').textContent = '';
-      document.getElementById('result').textContent = '';
+    document.addEventListener('DOMContentLoaded', function() {
+      const dogBreeds = {
+        'Labrador Retriever': { lifespan: 12, size: 'large' },
+        'Golden Retriever': { lifespan: 11, size: 'large' },
+        'Pastore Tedesco': { lifespan: 10, size: 'large' },
+        'Barboncino Standard': { lifespan: 14, size: 'medium' },
+        'Beagle': { lifespan: 13, size: 'medium' },
+        'Bassotto': { lifespan: 15, size: 'small' },
+        'Chihuahua': { lifespan: 17, size: 'small' },
+        'Bulldog Inglese': { lifespan: 8, size: 'medium' },
+        'Siberian Husky': { lifespan: 13, size: 'large' },
+        'Rottweiler': { lifespan: 9, size: 'large' },
+        'Yorkshire Terrier': { lifespan: 14, size: 'small' },
+        'Boxer': { lifespan: 10, size: 'large' },
+        'Dobermann': { lifespan: 11, size: 'large' },
+        'Alano': { lifespan: 7, size: 'giant' },
+        'Shih Tzu': { lifespan: 13, size: 'small' },
+        'Corgi': { lifespan: 13, size: 'small' },
+        'Pomerania': { lifespan: 14, size: 'small' },
+        'Maltese': { lifespan: 13, size: 'small' },
+        'San Bernardo': { lifespan: 8, size: 'giant' },
+        'Border Collie': { lifespan: 13, size: 'medium' },
+        'Cavalier King Charles': { lifespan: 11, size: 'small' },
+        'Jack Russell': { lifespan: 14, size: 'small' },
+        'Dalmata': { lifespan: 13, size: 'medium' },
+        'Akita Inu': { lifespan: 12, size: 'large' },
+        'Shiba Inu': { lifespan: 14, size: 'small' }
+      };
       
-      const dogName = document.getElementById('dogName').value.trim();
-      const breed = document.getElementById('breed').value;
-      const weight = document.getElementById('weight').value;
-      const age = document.getElementById('age').value;
-      
-      if (!dogName || !breed || !weight || !age) {
-        document.getElementById('error').textContent = 'Compila tutti i campi!';
+      const breedSelect = document.getElementById('breed');
+      if (!breedSelect) {
+        console.error('Elemento con id \"breed\" non trovato!');
         return;
       }
+      console.log('Elemento select:', breedSelect);
       
-      const parsedAge = parseFloat(age);
-      if (isNaN(parsedAge)) {
-        document.getElementById('error').textContent = 'Inserisci un valore numerico valido per l'età';
-        return;
-      }
+      Object.keys(dogBreeds).forEach(breed => {
+        const option = document.createElement('option');
+        option.value = breed;
+        option.textContent = breed;
+        breedSelect.appendChild(option);
+      });
       
-      const breedData = dogBreeds[breed];
-      if (!breedData) {
-        document.getElementById('error').textContent = 'Razza non riconosciuta';
-        return;
-      }
-      
-      const humanAge = (parsedAge / breedData.lifespan) * 80;
-      document.getElementById('result').innerHTML = `<strong>${dogName}</strong> ha <strong>${humanAge.toFixed(1)}</strong> anni umani!`;
+      document.getElementById('dogForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        document.getElementById('error').textContent = '';
+        document.getElementById('result').textContent = '';
+        
+        const dogName = document.getElementById('dogName').value.trim();
+        const breed = document.getElementById('breed').value;
+        const weight = document.getElementById('weight').value;
+        const age = document.getElementById('age').value;
+        
+        if (!dogName || !breed || !weight || !age) {
+          document.getElementById('error').textContent = 'Compila tutti i campi!';
+          return;
+        }
+        
+        const parsedAge = parseFloat(age);
+        if (isNaN(parsedAge)) {
+          document.getElementById('error').textContent = 'Inserisci un valore numerico valido per l\'età';
+          return;
+        }
+        
+        const breedData = dogBreeds[breed];
+        if (!breedData) {
+          document.getElementById('error').textContent = 'Razza non riconosciuta';
+          return;
+        }
+        
+        const humanAge = (parsedAge / breedData.lifespan) * 80;
+        document.getElementById('result').innerHTML = `<strong>${dogName}</strong> ha <strong>${humanAge.toFixed(1)}</strong> anni umani!`;
+      });
     });
   </script>
 </body>
